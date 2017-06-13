@@ -541,8 +541,13 @@ while(ub - lb > l) {
 この考え方を用いると、上記の問題について非常に大きな$n$に対しても現実的な時間で解くことができる。
 
 \section{課題}\label{sec:assign}
-以下の問題についてプログラムを書け。
-用意されている入力
+以下の問題についてプログラムを書け。A4の紙に
+\begin{itemize}
+\item テスト用の入力 \url{https://github.com/ryuhei-mori/2017ad/tree/master/bsearch/src/inputs} に対する出力
+\item 問題5.2, 5.3における関数$p$の定義と$p$のプログラムコード
+\end{itemize}
+を書いて提出すること。
+入力がテキストファイル\texttt{input.txt}に保存されているとき、\texttt{./a.out < input.txt}で入力を読み込ませることができる。
 
 
 %\clearpage
@@ -568,6 +573,8 @@ $a_0~a_1 \dotsb a_{n-1}$
 $x$
 \end{itembox}
 
+\noindent
+\begin{minipage}[t]{0.5\hsize}
 \begin{itembox}[l]{サンプル1}
 入力:
 \begin{verbatim}
@@ -579,7 +586,9 @@ $x$
 8
 \end{verbatim}
 \end{itembox}
-
+\end{minipage}
+%
+\begin{minipage}[t]{0.5\hsize}
 \begin{itembox}[l]{サンプル2}
 入力:
 \begin{verbatim}
@@ -591,6 +600,7 @@ $x$
 2
 \end{verbatim}
 \end{itembox}
+\end{minipage}
 
 \begin{itembox}[l]{サンプル3}
 入力:
