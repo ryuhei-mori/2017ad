@@ -297,7 +297,7 @@ else {
 \item 変数\texttt{lb}は\texttt{A[i] < k}を確認した最大の\texttt{i}
 \item 変数\texttt{ub}は\texttt{A[i] >= k}を確認した最小の\texttt{i}
 \end{itemize}
-である。便宜上\texttt{A[-1]}をマイナス無限、\texttt{A[n]}をプラス無限と解釈しているので、\texttt{lb = -1}、\texttt{ub = n}と初期化する。
+である。便宜上\texttt{A[-1]}をマイナス無限、\texttt{A[n]}をプラス無限と解釈して、\texttt{lb = -1}、\texttt{ub = n}と初期化する。
 実際にプログラムの中でアクセスされるのは\texttt{A[0]}から\texttt{A[n-1]}までなので心配はいらない。
 もしも\texttt{ub == lb + 1}であれば、\texttt{A[ub]}が\texttt{A[i] >= k}を満たす最小の値である。
 \texttt{ub - lb > 1}の場合、\texttt{while}ループの中でまず\texttt{mid = (lb + ub) / 2} を計算する(小数点以下切り捨てとなる)。
@@ -478,6 +478,7 @@ else {
 \end{center}
 
 最終的に\texttt{ub == 8}となる。
+\texttt{A[lb] < k} と \texttt{A[ub] >= k}が常に満たされていることに注意しよう。
 
 \if0
 %このプログラムの中で実質的な計算をしている箇所は次の5行である。
@@ -540,11 +541,63 @@ while(ub - lb > l) {
 実際に変更したのはこの中の3行目の\texttt{if}文の条件だけである。
 この考え方を用いると、上記の問題について非常に大きな$n$に対しても現実的な時間で解くことができる。
 
+とても簡単な例として割り算を考えよう。
+C言語では\texttt{a}割る\texttt{b}は\texttt{a / b}で簡単に計算ができるが、\texttt{/} は使わないで掛け算 \texttt{*} を使って割り算を計算することにしよう。
+入力は正の整数\texttt{a} と 正の整数\texttt{b} で出力が $\mathtt{\lceil a / b \rceil}$となるアルゴリズムを考えよう。
+まず
+\begin{equation*}
+p(m)=
+\begin{cases}
+1, & \text{if } mb \ge a\\
+0, & \text{otherwise}
+\end{cases}
+\end{equation*}
+と定義する。
+この関数$p$は明らかに単調である。
+そして、$p(m)=1$を満たす最小の$m$が$\mathtt{\lceil  a / b \rceil}$である。
+また明らかに$p(0)=0$、$p(a)=1$である。
+よって\texttt{lb = 0}、\texttt{ub = a} と初期化して二分探索をすればよい。
+C言語のプログラムは次のようになる。
+
+\begin{lstlisting}[basicstyle=\ttfamily\small,showstringspaces=false,language=C,frame=single]
+#include <stdio.h>
+
+int a, b;
+
+int p(int m){
+  return m * b >= a;
+}
+
+int main(){
+  int lb, ub;
+  scanf("%d%d", &a, &b);
+  lb = 0;
+  ub = a;
+  while(ub - lb > 1) {
+    int mid = (lb + ub) / 2;
+    if(p(mid)){
+      ub = mid;
+    }
+    else {
+      lb = mid;
+    }
+  }
+  printf("%d\n", ub);
+  return 0;
+}
+\end{lstlisting}
+
+二分探索ではまず、\texttt{lb}と\texttt{ub}を \texttt{p(lb) == 0}、\texttt{p(ub) == 1}となるように初期化する。
+\texttt{mid = (lb + ub) / 2} と選び、\texttt{p(mid)}の値に従って、常に\texttt{p(lb) == 0}、\texttt{p(ub) == 1} が満たされるように \texttt{lb} と \texttt{ub} を更新していく。
+この更新によって\texttt{ub - lb}が小さくなっていき、\texttt{ub == lb + 1} となったときに \texttt{ub} が解となる。
+このようなことができるのは$p$が\textbf{単調性という性質を持っているから}である。
+
+\clearpage
 \section{課題}\label{sec:assign}
 以下の問題についてプログラムを書け。A4の紙に
 \begin{itemize}
 \item テスト用の入力 \url{https://github.com/ryuhei-mori/2017ad/tree/master/bsearch/src/inputs} に対する出力
-\item 問題5.2, 5.3における関数$p$の定義と$p$のプログラムコード
+\item 問題5.2, 5.3における関数$p$の定義(日本語)と\texttt{lb}と\texttt{ub}の初期値の選び方とその理由、$p$のプログラムコード
 \end{itemize}
 を書いて提出すること。
 入力がテキストファイル\texttt{input.txt}に保存されているとき、\texttt{./a.out < input.txt}で入力を読み込ませることができる。
@@ -680,7 +733,7 @@ $x$
 \begin{itembox}[l]{問題文}
 長さ$m$の木から長さ$x$の木製の槍が$\lfloor m/x\rfloor$本作れる。
 今$n$本の木があり、各木の長さは$a_1,a_2,\dotsc,a_n$である。
-これら木を切り同じ長さの木製の槍を$k$本作りたい。
+これらの木を切り同じ長さの木製の槍を$k$本作りたい。
 作ることができる槍の長さの最大値$x$をもとめよ。
 \end{itembox}
 
