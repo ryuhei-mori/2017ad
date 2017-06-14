@@ -590,7 +590,7 @@ int main(){
 二分探索ではまず、\texttt{lb}と\texttt{ub}を \texttt{p(lb) == 0}、\texttt{p(ub) == 1}となるように初期化する。
 \texttt{mid = (lb + ub) / 2} と選び、\texttt{p(mid)}の値に従って、常に\texttt{p(lb) == 0}、\texttt{p(ub) == 1} が満たされるように \texttt{lb} と \texttt{ub} を更新していく。
 この更新によって\texttt{ub - lb}が小さくなっていき、\texttt{ub == lb + 1} となったときに \texttt{ub} が解となる。
-このようなことができるのは$p$が\textbf{単調性という性質を持っているから}である。
+これで解がもとまるのは$p$が\textbf{単調性という性質を持っているから}である。
 
 \clearpage
 \section{課題}\label{sec:assign}
