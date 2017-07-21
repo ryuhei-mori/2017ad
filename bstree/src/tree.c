@@ -30,6 +30,9 @@ void tree_free(tree_t *t){
   }
 }
 
+int tree_size(tree_t *t){
+}
+
 void tree_print_elements(tree_t *t){
 }
 
@@ -43,6 +46,7 @@ void tree_print_elements(tree_t *t){
 tree_t *tree_bal(tree_t *l, int v, tree_t *r) {
 }
 */
+
 
 int tree_mem(int x, tree_t *t){
 }
